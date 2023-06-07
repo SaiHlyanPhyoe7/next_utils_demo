@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { getData } from "./prefetch";
+import Loading from "./loading";
+import Link from "next/link";
 
 export default function Page() {
 	// const data = await getData();
@@ -15,20 +17,22 @@ export default function Page() {
 
 	if (isLoading || !data) return "Loading...";
 
-	if (error) return "An error has occurred: " + error;
+	// if (error) return "An error has occurred: " + error;
 
 	return (
-		<div>
-			Test
+		<Suspense fallback={<Loading />}>
+			<Link href="/server-action">Goto Server Action</Link>
 			{/* {data} */}
-			{data.map((post: any) => {
-				return (
-					<div key={post.id}>
-						{post.title}
-						{post.body}
-					</div>
-				);
-			})}
-		</div>
+			<div>
+				{data?.map((post: any) => {
+					return (
+						<div key={post.id}>
+							{post.title}
+							{post.body}
+						</div>
+					);
+				})}
+			</div>
+		</Suspense>
 	);
 }
