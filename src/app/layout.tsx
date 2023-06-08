@@ -11,13 +11,18 @@ export const metadata = {
 
 export default function RootLayout({
 	children,
+	modal,
 }: {
+	modal: React.ReactNode;
 	children: React.ReactNode;
 }) {
 	return (
 		<html lang="en">
 			<ReactQueryProvider>
-				<body className={inter.className}>{children}</body>
+				<body className={inter.className}>
+					{children}
+					{modal}
+				</body>
 			</ReactQueryProvider>
 		</html>
 	);
